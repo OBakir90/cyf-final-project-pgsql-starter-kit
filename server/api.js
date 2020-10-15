@@ -23,7 +23,7 @@ const client = new AuthorizationCode({
 });
 
 const authorizationUri = client.authorizeURL({
-	redirect_uri: 'http://localhost:3100/api/callback',
+	redirect_uri: 'https://graduate-dev-mode.herokuapp.com/api/callback',
 	scope: 'user:email',
 	// expires_in: '30'
 	state: '3(#0/!~',
