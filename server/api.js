@@ -21,8 +21,8 @@ const client = new AuthorizationCode({
 const authorizationUri = client.authorizeURL({
 	redirect_uri: 'https://graduate-dev-mode.herokuapp.com/api/callback',
 	scope: 'user:email',
-	expires_in: '30'
-	// state: '3(#0/!~',
+	// expires_in: '30'
+	state: '3(#0/!~',
 });
 
 router.get('/login', (req, res) => {
