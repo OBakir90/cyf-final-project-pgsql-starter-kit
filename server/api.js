@@ -5,8 +5,7 @@ import { Connection } from "./db";
 import { AuthorizationCode } from "simple-oauth2"
 
 const router = new Router();
-// const CLIENT_ID = `a0efdcbd5af78bcc2e76`;
-// const CLIENT_SECRET =`0c6a9d76a7df7d77a4fe4c3eb1b1990a778efadb`;
+
 
 const client = new AuthorizationCode({
 	client: {
