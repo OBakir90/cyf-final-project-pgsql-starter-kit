@@ -5,11 +5,15 @@ import { Connection } from "./db";
 import { AuthorizationCode } from "simple-oauth2"
 
 const router = new Router();
+// const CLIENT_ID = `a0efdcbd5af78bcc2e76`;
+// const CLIENT_SECRET =`0c6a9d76a7df7d77a4fe4c3eb1b1990a778efadb`;
 
 const client = new AuthorizationCode({
 	client: {
 		id: process.env.CLIENT_ID,
 		secret: process.env.CLIENT_SECRET,
+		// id: CLIENT_ID,
+		// secret: CLIENT_SECRET,
 	},
 	auth: {
 		tokenHost: 'https://github.com',
@@ -19,7 +23,7 @@ const client = new AuthorizationCode({
 });
 
 const authorizationUri = client.authorizeURL({
-	redirect_uri: 'https://graduate-dev-mode.herokuapp.com/api/callback',
+	redirect_uri: 'http://localhost:3100/api/callback',
 	scope: 'user:email',
 	// expires_in: '30'
 	state: '3(#0/!~',
