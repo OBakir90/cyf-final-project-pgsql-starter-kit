@@ -8,6 +8,7 @@ const StyledButton = (props) => {
 		<StyleButton className={`btn btn-outline-light ${props.class}`} bsPrefix="super-btn"
 			onClick={props.handleClick}>
 			{props.name}
+
 		</StyleButton>
 	);
 };
@@ -47,8 +48,8 @@ const StyleButton = styled(Button)`
     }
 `;
 
-StyleButton.propTypes = {
-	name: PropTypes.string.isRequired,
-};
+// StyleButton.propTypes = {
+// 	name: PropTypes.string.isRequired,
+// };
 
 

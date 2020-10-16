@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
+import cors from "cors";
 
 import router from "./api";
 import { httpsOnly, logErrors, pushStateRouting } from "./middleware";
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(logErrors());
 app.use(morgan("dev"));
+app.use(cors());
 
 if (app.get("env") === "production") {
 	app.enable("trust proxy");

@@ -2,17 +2,17 @@ import { Router } from "express";
 
 import { Connection } from "./db";
 
+
 import { AuthorizationCode } from "simple-oauth2"
 
 const router = new Router();
+
 
 
 const client = new AuthorizationCode({
 	client: {
 		id: process.env.CLIENT_ID,
 		secret: process.env.CLIENT_SECRET,
-		// id: CLIENT_ID,
-		// secret: CLIENT_SECRET,
 	},
 	auth: {
 		tokenHost: 'https://github.com',
@@ -22,7 +22,8 @@ const client = new AuthorizationCode({
 });
 
 const authorizationUri = client.authorizeURL({
-	redirect_uri: 'https://graduate-dev-mode.herokuapp.com/api/callback',
+	// redirect_uri: 'http://localhost:3100/api/callback',
+	redirect_uri: 'http://https://graduate-dev-mode.herokuapp.com/api/callback',
 	scope: 'user:email',
 	// expires_in: '30'
 	state: '3(#0/!~',
@@ -43,7 +44,7 @@ router.get('/login', (req, res) => {
     try {
       const accessToken = await client.getToken(options);
 
-      console.log('The resulting token: ', accessToken.token);
+	  console.log('The resulting token: ', accessToken.token);
 
       return res.status(200).json(accessToken.token);
     } catch (error) {
@@ -52,9 +53,6 @@ router.get('/login', (req, res) => {
     }
   });
 
-router.get("/oauth2", (_, res, next) => {
-	res.send('Hello<br><a href="/api/login">Log in with Github</a>');
-});
 
 router.get("/", (_, res, next) => {
 	// Connection.connect((err) => {
