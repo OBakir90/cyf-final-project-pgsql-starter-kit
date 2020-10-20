@@ -7,14 +7,20 @@ import { Connection } from "./db";
 import { AuthorizationCode } from "simple-oauth2";
 
 const router = new Router();
-const { Octokit } = require("@octokit/core");
+var cors = require('cors');
+router.use(cors());
 
+const { Octokit } = require("@octokit/core");
+const CLIENT_ID = `e166cb1f254d73d2fac6`;
+const CLIENT_SECRET =`a66b8ca00664072a1cf9c034f376d6947ed7891a`;
 
 const client = new AuthorizationCode({
 	client: {
 		//these would come from the github where the app is registered.
-		id: process.env.CLIENT_ID,
-		secret: process.env.CLIENT_SECRET,
+		// id: process.env.CLIENT_ID,
+		// secret: process.env.CLIENT_SECRET,
+		id: CLIENT_ID,
+		secret: CLIENT_SECRET
 	},
 	auth: {
 		tokenHost: 'https://github.com',
@@ -25,7 +31,7 @@ const client = new AuthorizationCode({
 
 const authorizationUri = client.authorizeURL({
 	//we can put in the redirect_uri when we deploy the app
-	redirect_uri: 'http://localhost:3100/api/callback',
+	redirect_uri: 'http://localhost:3000/api/home',
 	scope: 'user',
 	// expires_in: '30' something to look into later
 	// state: '3(#0/!~',

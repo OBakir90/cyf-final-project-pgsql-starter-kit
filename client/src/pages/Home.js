@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {useState, useContext, useEffect } from "react";
 import OverviewProfileCard from '../components/OverviewProfileCard';
 import ViewProfileDetail from '../components/ViewProfileDetail';
 import { ProfileContext } from '../context/ProfileContext';
@@ -8,8 +8,20 @@ import GitHubLogin from 'react-github-login';
 
 const Home = () => {
 	const { getAllProfiles, getProfile, clearProfile, allProfiles, profile, isLoading, error }= useContext(ProfileContext);
+	const [userName, setUserName] = useState('');
+	// const onSuccess = response => console.log(response,'----> something');
+	const onSuccess = () =>{
+		
+
+      fetch(`https://dev-graduate-directory.herokuapp.com/api/callback`)
+      .then(res => res.json())
+      .then(data => {
+	   setUserName(data);
+	})
+	console.log(userName);
 	
-	const onSuccess = response => console.log(response);
+
+}
     const onFailure = response => console.error(response);  
 
 	useEffect(getAllProfiles, []);
@@ -20,8 +32,9 @@ const Home = () => {
 			<GitHubLogin clientId= "e166cb1f254d73d2fac6" //this needs to change according to heroku app configs
 			onSuccess={onSuccess}
 			onFailure={onFailure}
-			redirectUri={'http://localhost:3100/api/callback'}	 //this needs to be changed according to heroku app configs
+			redirectUri={'http://localhost:3000/api/home'}	 //this needs to be changed according to heroku app configs
 			/>
+			
 			<Container>
 				{console.log('isLoading', isLoading)}
 				{isLoading ? <Text>Loading...</Text>
