@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import CreateProfile from "./pages/CreateProfile";
 import ViewProfile from "./pages/ViewProfile";
 import EditProfile from "./pages/EditProfile";
-import CallBack from "./pages/CallBack";
 
 const Routes = () => {
 	return (
@@ -15,8 +14,7 @@ const Routes = () => {
 				<Route path='/createprofile' component={CreateProfile} />
 				<Route path='/viewprofile' component={ViewProfile} />
 				<Route path='/editprofile' component={EditProfile} />
-				<Route path='/oauth2' component={CreateProfile} />
-				<Route path='/home' component={Home} />
+				{/* <Route path='/oauth2' component={CreateProfile} /> */}
 			</Switch>
 		</BrowserRouter>
 	);
