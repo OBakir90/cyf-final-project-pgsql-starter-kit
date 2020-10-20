@@ -13,7 +13,7 @@ const Home = () => {
 	const onSuccess = () =>{
 		
 
-      fetch(`https://dev-graduate-directory.herokuapp.com/api/callback`)
+      fetch(`https://oauth-frontend.herokuapp.com/api/callback`)
       .then(res => res.json())
       .then(data => {
 	   setUserName(data);
@@ -32,7 +32,7 @@ const Home = () => {
 			<GitHubLogin clientId= "e166cb1f254d73d2fac6" //this needs to change according to heroku app configs
 			onSuccess={onSuccess}
 			onFailure={onFailure}
-			redirectUri={'http://localhost:3000/api/home'}	 //this needs to be changed according to heroku app configs
+			redirectUri={'https://oauth-frontend.herokuapp.com/home'}	 //this needs to be changed according to heroku app configs
 			/>
 			
 			<Container>
