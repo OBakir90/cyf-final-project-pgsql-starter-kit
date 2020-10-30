@@ -1,14 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import ViewSkills from '../components/ViewSkills';
 import MailBox from './MailBox'
+import MailSendSuccess from './MailSendSuccess'
 import StyledButton from '../constant/StyledButton';
 import { useHistory } from 'react-router-dom';
 
 
 const OverviewProfileCard = ({ profile, getProfile }) => {
-	const [mail, setMail]=useState()
+	const email='obakir90@gmail.com'
+	const [mailBox, setMailBox]=useState(false)
+	const [success, setSuccess] =useState(false)
 	let history = useHistory()
 
 	const handleClick = async(id)=>{
@@ -16,9 +19,17 @@ const OverviewProfileCard = ({ profile, getProfile }) => {
 		history.push('/viewdetail')
 	};
 
+	useEffect(() => {
+		const timer = setTimeout(() => {
+		  setSuccess(false)
+		}, 3000);
+		return () => clearTimeout(timer);
+	  }, [success]);
+
 	return (
 		<CardContainer>
-			{mail&& <MailBox/>}
+			{mailBox&& <MailBox email={email} setMailBox={setMailBox} setSuccess={setSuccess}/>}
+			{success&&<MailSendSuccess/>}
 			{/* <Img variant="top" src={profile.img||avatar} /> */}
 			<Img />
 			<CardBody>
@@ -32,7 +43,10 @@ const OverviewProfileCard = ({ profile, getProfile }) => {
 				<CardText>
 				{profile.interest1}{profile.interest2&& `, ${profile.interest2}`}{profile.interest3&& `, ${profile.interest3}`}
 				</CardText>
-				<EmailIcon onClick={()=>setMail(true)}/>
+				<IconCont>
+					<EmailIcon onClick={()=>setMailBox(true)}/>
+					<EmailOutlookIcon href={`mailto:${email}`}/>
+				</IconCont>
 				{/* <ViewSkills skills={profile.skills} /> */}
 				<StyledButton name='View Profile' handleClick={()=>handleClick(`${profile.github_id}`)} />
 			</CardBody>
@@ -94,8 +108,19 @@ const Img=styled.div`
 `;
 
 const EmailIcon= styled.div`
-	width:7px;
-	height:7px;
+	width:15px;
+	height:15px;
 	border-radius:50%;
 	background-color:gray;
+`
+
+const EmailOutlookIcon= styled.a`
+	width:15px;
+	height:15px;
+	border-radius:50%;
+	background-color:black;
+`
+
+const IconCont =styled.div`
+	display:flex;
 `

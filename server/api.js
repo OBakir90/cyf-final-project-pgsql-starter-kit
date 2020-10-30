@@ -263,12 +263,20 @@ router.post("/send", (req,res)=>{
     console.log("email", req.body)
     const sender = req.body.sender;
     const receiver=req.body.receiver;
+    // const subject= req.body.subject,
     const message = req.body.message;
+   
+    const mailOptions = {
+      from: sender,
+      to: receiver,
+      // subject:subject, 
+      text: message
+    }
 
     transporter.sendMail(mailOptions, (err,result)=>{
       if(err){res.status(404).send(err)
       }else{
-      transport.close();
+      transporter.close();
       res.status(200).send("Email has been sent succesfully")}
       }
     )
