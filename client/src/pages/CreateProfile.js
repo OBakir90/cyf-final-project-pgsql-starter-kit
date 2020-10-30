@@ -9,6 +9,7 @@ import { ProfileContext } from '../context/ProfileContext';
 const CreateProfile = () => {
 	const { addProfile, profile}  = useContext(ProfileContext);
 	const handleClick =(profile)=>{
+		console.log('hit crreadte profile')
 		addProfile(profile);
 	}
 	return (

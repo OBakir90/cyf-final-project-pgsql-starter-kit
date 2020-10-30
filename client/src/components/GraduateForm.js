@@ -29,10 +29,10 @@ const GraduateForm = ({profile, handleClick}) => {
 
 	console.log('profile', profile)
 	
-	// const [newSkills, setNewSkills] = useState([]);
+	const [newSkills, setNewSkills] = useState([]);
 	
 	// useEffect(()=>{
-	// 	setNewSkills()
+	// 	setNewSkills(profile.skills)
 	// },[profile])
 
 	const handleSubmit =async (values) => {
@@ -49,7 +49,7 @@ const GraduateForm = ({profile, handleClick}) => {
 			'github_link':github,
 			'linkedin_link': linkedin,
 			'portfolio_link':portfolio,
-			// 'skills':skills,
+			'skills':newSkills,
 		};
 		await handleClick(newProfile);
 		history.push('/viewprofile');
@@ -72,15 +72,17 @@ const GraduateForm = ({profile, handleClick}) => {
 		let event = e.key;
 		let word = e.target.value.trim().toUpperCase();
 		if(event==' '){
+			console.log('skills', newSkills, response, word)
 			response.includes(word) && !newSkills.includes(word) && setNewSkills([...newSkills, word ]);
+			console.log('skills', newSkills)
 			setFieldValue('skills', '');
 		}
 	};
 
 	const initialValue = profile ? 
-							{firstName:profile.first_name, surname:profile.surname, aboutMe:profile.about_me, location:profile.location, interest1:profile.interest1,interest2:profile.interest2,interest3:profile.interest3, github:profile.github_link, linkedin:profile.linkedin_link, portfolio:profile.portfolio_link } 
+							{firstName:profile.first_name, surname:profile.surname, aboutMe:profile.about_me, location:profile.location, interest1:profile.interest1,interest2:profile.interest2,interest3:profile.interest3, github:profile.github_link, linkedin:profile.linkedin_link, portfolio:profile.portfolio_link, skills:profile.skills } 
 							:
-							{firstName:'', surname:'', aboutMe:'', location:'', interest1:'', interest2:'',interest3:'', github:'', linkedin:'', portfolio:'' };
+							{firstName:'', surname:'', aboutMe:'', location:'', interest1:'', interest2:'',interest3:'', github:'', linkedin:'', portfolio:'', skills:'' };
 
 	return (
 		<Container >
@@ -158,16 +160,16 @@ const GraduateForm = ({profile, handleClick}) => {
 								// placeholder='Last Name'
 								label='Your Portfolio/Project'
 							/>				
-							{/* <FormField
+							<FormField
 								name='skills'
 								// placeholder='Email'
 								label='Your key skills'
 								info = 'Type your skills and press ‘Space’'
 								onKeyUp={(e)=>handleValidate(e, props.setFieldValue)}
 							/> 
-							<ViewSkills>{newSkills.map((skill, i)=>{
+							<ViewSkills>{newSkills&&newSkills.map((skill, i)=>{
 								return <Skill key={i}>{skill}<X onClick={deleteSkill} type='delete' value={skill}>X</X></Skill>;
-							})}</ViewSkills> */}
+							})}</ViewSkills>
 							
 						</StyledForm>
 						<ButtonContainer>

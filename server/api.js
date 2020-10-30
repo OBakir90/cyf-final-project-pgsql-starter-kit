@@ -101,17 +101,30 @@ router.post("/graduates", function (req, res) {
   const linkedin=req.body.linkedin_link;
   const portfolio=req.body.portfolio_link;
   const github_id = req.body.github_id;
+  const skills =req.body.skills.map(x=>x.toLowerCase());
   
+  console.log('server', skills)
   //const github_name = req.body.githubName;
   //checking if the user is existed in our github table
   Connection.query(
           `insert into graduates (first_name, surname, about_me, location, interest1, interest2, interest3,github_link, linkedin_link, portfolio_link, github_id ) values` +
-            `($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            `($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *`,
           [newFirstName, newSurname, aboutMe, location, interest1, interest2, interest3,github, linkedin, portfolio, github_id],
           (error, result) => {
             if(result){
-              console.log('post request result', result)
-              res.status(200).send(result.rows);
+              // return res.send(result.rows);
+              let graduate_id=result.rows[0].id
+              Connection.query(
+                `insert into graduate_skill (graduate_id, skill_id)` +
+                 ` select $1, id from skills where skill_name=ANY($2)`, [graduate_id, skills],
+                (err,result)=>{
+                  if (!err){
+                    res.status(200).send('success')
+        
+                  }else{
+                    console.log(err)
+                  }
+                })
             } else {
               res.status(404).send(error)
             } 
@@ -180,7 +193,7 @@ router.put("/graduates/:id", function (req, res) {
   const github=req.body.github_link;
   const linkedin=req.body.linkedin_link;
   const portfolio=req.body.portfolio_link;
-
+ 
   Connection.query(
     "update graduates set first_name=$1, surname=$2, about_me=$3, location=$4, interest1=$5, interest2=$6, interest3=$7, github_link=$8, linkedin_link=$9, portfolio_link=$10 where github_id =$11",
     [newFirstName, newSurname, aboutMe, location, interest1, interest2, interest3, github, linkedin, portfolio, github_id],
@@ -284,23 +297,23 @@ router.post("/send", (req,res)=>{
 
 const receivers =["cyf.graduate.platform@gmail.com", "obakir90@gmail.com", "obakir90.c@gmail.com"]
 
-cron.schedule('0,30 * * * * *', ()=>{
-  receivers.map((receiver)=>{
-    const mail = {
-      from: "cyf.graduate.platform@gmail.com",
-      to: receiver,
-      subject: "Mail", 
-      text: "This mail sent from cyf"
-    }
-    transporter.sendMail(mail, (err, info)=>{
-        if(err){
-            console.log('hataa var', err)
-        } else {
-            console.log('email is sent'+info.response)
-        }
-    })
-  })
-})
+// cron.schedule('0,30 * * * * *', ()=>{
+//   receivers.map((receiver)=>{
+//     const mail = {
+//       from: "cyf.graduate.platform@gmail.com",
+//       to: receiver,
+//       subject: "Mail", 
+//       text: "This mail sent from cyf"
+//     }
+//     transporter.sendMail(mail, (err, info)=>{
+//         if(err){
+//             console.log('hataa var', err)
+//         } else {
+//             console.log('email is sent'+info.response)
+//         }
+//     })
+//   })
+// })
 
 
 
