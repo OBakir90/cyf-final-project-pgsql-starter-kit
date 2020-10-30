@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import ViewSkills from '../components/ViewSkills';
+import MailBox from './MailBox'
 import StyledButton from '../constant/StyledButton';
-import avatar from '../assets/icons/avatar.svg';
 import { useHistory } from 'react-router-dom';
 
 
 const OverviewProfileCard = ({ profile, getProfile }) => {
+	const [mail, setMail]=useState()
 	let history = useHistory()
 
 	const handleClick = async(id)=>{
@@ -17,6 +18,7 @@ const OverviewProfileCard = ({ profile, getProfile }) => {
 
 	return (
 		<CardContainer>
+			{mail&& <MailBox/>}
 			{/* <Img variant="top" src={profile.img||avatar} /> */}
 			<Img />
 			<CardBody>
@@ -30,6 +32,7 @@ const OverviewProfileCard = ({ profile, getProfile }) => {
 				<CardText>
 				{profile.interest1}{profile.interest2&& `, ${profile.interest2}`}{profile.interest3&& `, ${profile.interest3}`}
 				</CardText>
+				<EmailIcon onClick={()=>setMail(true)}/>
 				{/* <ViewSkills skills={profile.skills} /> */}
 				<StyledButton name='View Profile' handleClick={()=>handleClick(`${profile.github_id}`)} />
 			</CardBody>
@@ -89,3 +92,10 @@ const Img=styled.div`
 	border-radius: 64px;
 	background-color: #D8D8D8;
 `;
+
+const EmailIcon= styled.div`
+	width:7px;
+	height:7px;
+	border-radius:50%;
+	background-color:gray;
+`

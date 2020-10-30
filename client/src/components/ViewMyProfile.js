@@ -28,6 +28,9 @@ const ViewMyProfile = ({profile}) => {
 					{profile.about_me}	
 				</Description>
 				<Description>
+					{profile.about_me}	
+				</Description>
+				<Description>
 					{profile.interest1}{profile.interest2&& `, ${profile.interest2}`}{profile.interest3&& `, ${profile.interest3}`}
 				</Description>
 				<SubHeads>{profile.first_name}’s skills</SubHeads>
@@ -140,4 +143,9 @@ const SocialText =styled.a`
 	font-weight: bold;
 	letter-spacing: 0;
 	line-height: 24px;
+`
+
+const DescHead = styled.p`
+	font-size:1.2rem;
+	color:black;
 `

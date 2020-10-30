@@ -8,6 +8,7 @@ const FormField = (props) => {
     return (
         <Container>
             {props.label && <FormLabel>{props.label}</FormLabel>}
+            {props.description && <FormDesct>{props.description}</FormDesct>}
             {props.info&& <FormInfo>{props.info}</FormInfo>}
             <InputField  {...field}  {...props} className={meta.touched && meta.error ? "has-error" : "input"} />
             {meta.error && meta.touched && <Error>{meta.error}</Error>}
@@ -34,7 +35,7 @@ const FormLabel = styled.label`
 `;
 
 const InputField = styled.input`
-    height: 60px;
+    height: ${props=>props.height||'60px'};
     width: 538px;
     border: 1px solid #333333;
     background-color: #FFFFFF;
