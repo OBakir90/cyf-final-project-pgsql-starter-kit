@@ -7,7 +7,7 @@ import avatar from '../assets/icons/avatar.svg';
 import { useHistory } from 'react-router-dom';
 
 
-const OverviewProfileCard = ({ profile, getProfile }) => {
+const OverviewProfileCard = ({ profile, getProfile, avatar_Url }) => {
 	let history = useHistory()
 
 	const handleClick = async(id)=>{
@@ -17,8 +17,8 @@ const OverviewProfileCard = ({ profile, getProfile }) => {
 
 	return (
 		<CardContainer>
-			{/* <Img variant="top" src={profile.img||avatar} /> */}
-			<Img />
+			<Img variant="top" src={avatar_Url||avatar} />
+			{/* <Img /> */}
 			<CardBody>
 				<CardTitle>{profile.first_name} {profile.surname}</CardTitle>
 				<CardText>

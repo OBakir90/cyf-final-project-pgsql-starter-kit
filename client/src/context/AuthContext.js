@@ -26,6 +26,8 @@ const authReducer = (state, action) => {
 		return { ...state, isAuthenticated:true, github_id:action.payload, isLoading: false };
     case types.Set_UserName:
         return { ...state, github_id: action.payload.id, userName:action.payload.name, isAuthenticated:true, isLoading: false };
+        case types.Set_Avatar:
+            return { ...state, avatarUrl:action.payload.avatar_url, isAuthenticated:true, isLoading: false };    
     case types.Set_Is_Graduate:
         return { ...state, isGraduate:false, isLoading: false }; 
     case types.Logout:
@@ -40,6 +42,7 @@ const AuthState = (props) =>{
     const initialState={
         userName:null,
         github_id:null,
+        avatar_url:null,
         isAuthenticated: false,
         isGraduate:true,
         isLoading:false,
@@ -52,7 +55,15 @@ const AuthState = (props) =>{
     const fetchUserName = (code)=>{
         return axios.get(`https://designed-gd.herokuapp.com/api/callback?code=${code}`)
         .then(response => {
-            return response.data
+            return response.data.login
+        })
+    }
+    const fetchAvatar = (code)=>{
+        return axios.get(`https://designed-gd.herokuapp.com/api/callback?code=${code}`)
+        .then(response => {
+            let pictureUrl = response.data.avatar_url;
+            dispatch({ type:types.Set_Avatar, payload:pictureUrl});
+
         })
     }
 
@@ -97,7 +108,8 @@ const AuthState = (props) =>{
                 isGraduate:state.isGraduate,
                 error:state.error,
                 checkGraduate,
-                fetchUserName, 
+                fetchUserName,
+                fetchAvatar, 
                 logOut
 			}}
 		>

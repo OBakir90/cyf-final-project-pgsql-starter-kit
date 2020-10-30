@@ -13,11 +13,12 @@ const Home = () => {
 	let history = useHistory();
 
 	const { getAllProfiles, getProfile, clearProfile, allProfiles, profile, isLoading, error }= useContext(ProfileContext);
-	const { fetchUserName, checkGraduate, isAuthenticated, github_id, userName, isGraduate} = useContext(AuthContext);
+	const { fetchUserName, fetchAvatar, checkGraduate, isAuthenticated, github_id, userName,avatar_url, isGraduate} = useContext(AuthContext);
 
 	const onSuccess = async (response) =>{
 		const accessCode = response.code;
 		const githubname = await fetchUserName(accessCode);
+		 await fetchAvatar(accessCode)
 		console.log('name', githubname);
 		await checkGraduate(githubname);
 		clearProfile();
@@ -48,10 +49,10 @@ const Home = () => {
 		<Screen>
 			<Header>
 				<Logo/>
-				<GitHub clientId='d46845e5f1d464b34454' //this needs to change according to heroku app configs
+				<GitHub clientId='e166cb1f254d73d2fac6' //this needs to change according to heroku app configs
 				onSuccess={onSuccess}
 				onFailure={onFailure}
-				redirectUri={'https://designed-gd.herokuapp.com/login'}
+				redirectUri={'http://localhost:3000/login'}
 				// redirectUri={'http://localhost:3000/login'}
 				buttonText='Log in'
 				/>
@@ -63,7 +64,7 @@ const Home = () => {
     		<Container>
 				{isLoading ? <Text>Loading...</Text>
 					: allProfiles && allProfiles.map(( profile, i ) => {
-						return <OverviewProfileCard profile={ profile } getProfile={getProfile} key={ i } />;
+						return <OverviewProfileCard profile={ profile } getProfile={getProfile} avatar_Url={avatar_url} key={ i } />;
 					})}
 				{error && <Text>{error}</Text>}
 				{/* {profile&&<Redirect to='/viewdetail'/>} */}
