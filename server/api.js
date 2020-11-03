@@ -74,6 +74,8 @@ router.get("/graduates", (req, res) => {
   });
 });
 
+
+
 // create new profile
 router.post("/graduates", function (req, res) {
   const newFirstName = req.body.first_name;
@@ -119,14 +121,16 @@ router.post("/graduates", function (req, res) {
 
 
 
-//checking the github username exist in our database
+//checking the github username exist in our database and if he is admin
 router.get("/accounts/:name", (req, res) => {
   const githubName = req.params.name;
   Connection.query(
     "SELECT * FROM github_accounts where account_name=$1 ",
     [githubName],
     (error, result) => {
-      if (result && (result.rowCount > 0)) {
+      if (result && (result.rowCount > 0)&& result.rows[0].is_admin) {
+        res.status(204).json(result.rows);}
+        else if (result && (result.rowCount > 0)){
         let id = result.rows[0].id;
         Connection.query(
           "SELECT * FROM github_accounts GA join graduates G on(GA.id=G.github_id) where GA.account_name=$1 ",
@@ -139,14 +143,52 @@ router.get("/accounts/:name", (req, res) => {
             }
           }
         );
-      } else
+        }
+      else
         res
           .status(404)
           .send("this is  github account does not belong to a CYF graduates");
-    }
+      }
   );
 });
-
+//insert github username in github account table
+router.post("/accounts", function (req, res) {
+  const github_username = req.body.account_name;
+  const isAdmin = req.body.is_admin;
+  Connection.query(
+    `insert into github_accounts (account_name,is_admin)VALUES($1,$2) returning *`
+    ,[github_username,isAdmin],
+    (err,result)=>
+    {
+      if (!err){
+        res.status(200).send(result.rows)
+      }else{
+        res.status(404).send(err);
+      }
+  
+   }
+                 )
+ }
+  )
+// inserting new skills
+  router.post("/skills", function (req, res) {
+    const skillName = req.body.skill_name;
+    
+    Connection.query(
+      `insert into skills (skill_name)VALUES($1) returning *`
+      ,[skillName],
+      (err,result)=>
+      {
+        if (!err){
+          res.status(200).send(result.rows)
+        }else{
+          res.status(404).send(err);
+        }
+    
+     }
+                   )
+   }
+    )
 router.get("/graduates/:id", (req, res) => {
   const github_id = parseInt(req.params.id);
   Connection.query(
