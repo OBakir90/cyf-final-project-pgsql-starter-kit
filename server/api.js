@@ -189,6 +189,20 @@ router.post("/accounts", function (req, res) {
                    )
    }
     )
+    // get all the email for non hired graduates
+    router.get("/graduates/emails", (req, res) => {
+      Connection.query("SELECT email_address FROM graduates where is_hired=false", (error, result) => {
+        if (result) {
+          res.json(result.rows);
+        } else {
+          res.send(error);
+        }
+      });
+    });
+
+
+// get all the information that is related to a graduate
+
 router.get("/graduates/:id", (req, res) => {
   const github_id = parseInt(req.params.id);
   Connection.query(
