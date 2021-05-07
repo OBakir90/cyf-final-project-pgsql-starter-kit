@@ -9,7 +9,7 @@ export const AuthContext = React.createContext();
 
 const types = {
     Set_Is_Loading: "Set_Is_Loading",
-	Set_Logged_In: "Set_Logged_In",
+    Set_Logged_In: "Set_Logged_In",
     Set_UserName: "Set_UserName",
     Set_Is_Graduate:'Set_Is_Graduate',
     Set_Github:'Set_Github',
@@ -21,25 +21,25 @@ const types = {
 
 const authReducer = (state, action) => {
 	switch (action.type) {
-	case types.Set_Is_Loading:
-		return { ...state, isLoading: action.payload };
-	case types.Set_Error:
-		return { ...state, isLoading: false, error:action.payload };
-	case types.Set_Logged_In:
-        return { ...state, isAuthenticated:true, github_id:action.payload, isLoading: false };
-    case types.Set_UserName:
-        return { ...state, github_id: action.payload.id, userName:action.payload.name, isAuthenticated:true, isLoading: false };
-    case types.Set_Is_Graduate:
-        return { ...state, isGraduate:action.payload, isLoading: false }; 
-    case types.Set_Is_Admin:
-        return { ...state, isAdmin:true, isAuthenticated:true, isLoading: false }; 
-    case types.Set_Github:
-        return {...state, github_name:action.payload.accountname, github_avatar:action.payload.avatar}    
-    case types.Logout:
-        return { ...state, userName:null, isAuthenticated:false, isAdmin:false, isLoading: false };
-    default:
-        return state;
-        }
+		case types.Set_Is_Loading:
+			return { ...state, isLoading: action.payload };
+		case types.Set_Error:
+			return { ...state, error:action.payload, isLoading: false };
+		case types.Set_Logged_In:
+			return { ...state, isAuthenticated:true, github_id:action.payload, isLoading: false };
+		case types.Set_UserName:
+			return { ...state, github_id: action.payload.id, userName:action.payload.name, isAuthenticated:true, isLoading: false };
+		case types.Set_Is_Graduate:
+			return { ...state, isGraduate:action.payload, isLoading: false }; 
+		case types.Set_Is_Admin:
+			return { ...state, isAdmin:true, isAuthenticated:true, isLoading: false }; 
+		case types.Set_Github:
+			return {...state, github_name:action.payload.accountname, github_avatar:action.payload.avatar}    
+		case types.Logout:
+			return { ...state, userName:null, isAuthenticated:false, isAdmin:false, isLoading: false };
+		default:
+			return state;
+		}
         };
                     
                     
@@ -84,10 +84,10 @@ const authReducer = (state, action) => {
                         if(response.status==200){
                             let name=response.data[0].account_name;
                             let id = response.data[0].github_id; 
-                        return  dispatch({ type: types.Set_UserName, payload:{name, id}})
+                        	dispatch({ type: types.Set_UserName, payload:{name, id}})
                         }
                         if(response.status==201){
-                        return  dispatch({ type: types.Set_Is_Admin})
+                        	dispatch({ type: types.Set_Is_Admin})
                         }
                         if (response.status==206){
                             let id=response.data.github_id
@@ -104,27 +104,27 @@ const authReducer = (state, action) => {
         }
 
         const setGraduate = ()=>{
-            return dispatch({ type:types.Set_Is_Graduate, payload:true});
+            dispatch({ type:types.Set_Is_Graduate, payload:true});
         }
 
     return (
 		<AuthContext.Provider
 			value={{
-                user:state.user,
-                userName:state.userName,
-                github_id:state.github_id,
-                github_name:state.github_name,
-                github_avatar:state.github_avatar,
-                isAuthenticated: state.isAuthenticated,
-                isLoading:state.isLoading,
-                isGraduate:state.isGraduate,
-                isAdmin:state.isAdmin,
-                error:state.error,
-                checkGraduate,
-                fetchUserName, 
-                setGithub,
-                setGraduate,
-                logOut
+				user:state.user,
+				userName:state.userName,
+				github_id:state.github_id,
+				github_name:state.github_name,
+				github_avatar:state.github_avatar,
+				isAuthenticated: state.isAuthenticated,
+				isLoading:state.isLoading,
+				isGraduate:state.isGraduate,
+				isAdmin:state.isAdmin,
+				error:state.error,
+				checkGraduate,
+				fetchUserName, 
+				setGithub,
+				setGraduate,
+				logOut
 			}}
 		>
 			{props.children}
