@@ -48,7 +48,7 @@ const AdminState = (props) =>{
         dispatch({ type: types.Set_Is_Loading, payload:true }),       
         axios.get(`${baseUrl}/skills`)
             .then(response=>{
-                return dispatch({ type: types.Set_Skills, payload:response.data})
+                dispatch({ type: types.Set_Skills, payload:response.data})
             })
             .catch((error)=>{
                 dispatch({ type:types.Set_Error });
@@ -59,7 +59,7 @@ const AdminState = (props) =>{
         dispatch({ type: types.Set_Is_Loading, payload:true }),       
         axios.get(`${baseUrl}/accounts`)
             .then(response=>{
-                return dispatch({ type: types.Set_Github_Accounts, payload:response.data})
+                dispatch({ type: types.Set_Github_Accounts, payload:response.data})
             })
             .catch((error)=>{
                 dispatch({ type:types.Set_Error });
