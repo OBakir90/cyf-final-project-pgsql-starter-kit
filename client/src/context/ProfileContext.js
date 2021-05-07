@@ -23,22 +23,22 @@ const types = {
 
 const profileReducer = (state, action) => {
 	switch (action.type) {
-	case types.Set_Is_Loading:
-		return { ...state, isLoading: true };
-	case types.Set_Error:
-		return { ...state, isLoading: false, error:action.payload };
-	case types.Set_All_Profiles:
-		return { ...state, allProfiles: action.payload, isLoading: false };
-	case types.Set_Profile:
-		return { ...state, profile:action.payload, isLoading: false };
-	case types.Clear_Profile:
-		return { ...state, profile: null, isLoading: false };
-	case types.Delete_Profile:
-		return { ...state, allProfiles: state.allProfiles.filter((profile) => profile.github_id !== action.payload.github_id), loading: false };
-	case types.Set_Rich_Text:
-		return {...state, statement:action.payload};
-	default:
-		return state;		
+		case types.Set_Is_Loading:
+			return { ...state, isLoading: true };
+		case types.Set_Error:
+			return { ...state, isLoading: false, error:action.payload };
+		case types.Set_All_Profiles:
+			return { ...state, allProfiles: action.payload, isLoading: false };
+		case types.Set_Profile:
+			return { ...state, profile:action.payload, isLoading: false };
+		case types.Clear_Profile:
+			return { ...state, profile: null, isLoading: false };
+		case types.Delete_Profile:
+			return { ...state, allProfiles: state.allProfiles.filter((profile) => profile.github_id !== action.payload.github_id), loading: false };
+		case types.Set_Rich_Text:
+			return {...state, statement:action.payload};
+		default:
+			return state;		
 	}
 };
 
@@ -63,23 +63,22 @@ const ProfileState = (props) =>{
 		dispatch({ type: types.Set_Is_Loading }),
 		axios.get(`${baseUrl}/graduates`)
 			.then((response)=>{
-			// let idList = response.data.map(p=>p.id).filter((p,i,a)=>a.indexOf(p)===i)
-			let grad =response.data.reduce((acc, gr)=>{
-				if(acc[gr.id]){
-					Array.isArray(acc[gr.id].skill_name) ?
-					acc[gr.id].skill_name=[...acc[gr.id].skill_name, gr.skill_name]:
-					acc[gr.id].skill_name=[gr.skill_name]
-				} else{
-					acc[gr.id]=gr;
-				}
-				return acc
-			},{})
+				let grad =response.data.reduce((acc, gr)=>{
+					if(acc[gr.id]){
+						Array.isArray(acc[gr.id].skill_name) ?
+						acc[gr.id].skill_name=[...acc[gr.id].skill_name, gr.skill_name]:
+						acc[gr.id].skill_name=[gr.skill_name]
+					} else{
+						acc[gr.id]=gr;
+					}
+					return acc
+				},{})
 
-			let graduates = [];
-			for (let g in grad) {
-				graduates.push(grad[g]) 
-			}
-			dispatch({ type: types.Set_All_Profiles, payload:graduates });
+				let graduates = [];
+				for (let g in grad) {
+					graduates.push(grad[g]) 
+				}
+				dispatch({ type: types.Set_All_Profiles, payload:graduates });
 			})
 			.catch((error)=>{
 				dispatch({ type:types.Set_Error, payload:error });
